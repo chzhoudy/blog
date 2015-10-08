@@ -28,7 +28,7 @@ var contents = input.next()
 contents.substring(0, 1000)
 ```
 
-output:
+Output:
 
 ```
  12
@@ -193,7 +193,7 @@ var renderClient = function (data) {
     );
 };
 ```
-React在页面预加载的时候初始化组件的props和states
+React在页面预加载的时候客户端初始化组件
 ```
 //index.jsp
 $(function () {
@@ -242,7 +242,7 @@ public MainController(CommentService service) {
 }
 ```
 
-初始化JSON,告知React初始化组件的props和states
+初始化JSON,服务器端预渲染输出字符串
 ```
 @RequestMapping("/")
 public String index(Map<String, Object> model) throws Exception {
