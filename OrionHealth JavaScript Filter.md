@@ -178,10 +178,152 @@ for (var i = 0; i < input.length; i++) {
 ```
 
 
+## 只读消息对象 ##
 
+属性
 
+<table>
+	<tr>
+		<td>
+			Property
+		</td>
+		<td>
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td>
+			text
+		</td>
+		<td>
+			使用默认系统编码获取消息体
+		</td>
+	</tr>
+	<tr>
+		<td>
+			body
+		</td>
+		<td>
+			将消息体作为字节数组输出
+		</td>
+	</tr>
+	<tr>
+		<td>
+			connectionId
+		</td>
+		<td>
+			获取消息连接标识符
+		</td>
+	</tr>
+	<tr>
+		<td>
+			bodyEncoding
+		</td>
+		<td>
+			获取当前消息体字符编码
+		</td>
+	</tr>
+	<tr>
+		<td>
+			xml
+		</td>
+		<td>
+			获取xml消息体，定义为E4X 标准
+		</td>
+	</tr>
+</table>
 
+方法
 
-
+<table>
+	<tr>
+		<td>
+			Method
+		</td>
+		<td>
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getBody()
+		</td>
+		<td>
+			获取byte消息体
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getText(string encoding)
+		</td>
+		<td>
+			获取string消息体
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getField(string fieldPath)
+		</td>
+		<td>
+			根据域路径提取域
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getRepeatCount(string fieldPath)
+		</td>
+		<td>
+			返回path值中重复元素个数
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getProperty(string propertyName)
+		</td>
+		<td>
+			返回属性值
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getPropertyAsList(string propertyName)
+		</td>
+		<td>
+			返回属性值列表
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getPropertyNames()
+		</td>
+		<td>
+			已字符串返回一个java.util.Iterator的实例迭代器
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getErrors()
+		</td>
+		<td>
+			返回消息处理错误
+		</td>
+	</tr>
+	<tr>
+		<td>
+			isInputIndexedProperty(string propertyName)
+		</td>
+		<td>
+			属性是否为输入索引
+		</td>
+	</tr>
+	<tr>
+		<td>
+			isOutputIndexedProperty(string propertyName)
+		</td>
+		<td>
+			属性是否为输出索引
+		</td>
+	</tr>
+</table>
 
 
