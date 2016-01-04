@@ -500,10 +500,236 @@ for (var i = 0; i < input.length; i++) {
 			clearLastUsedDefinition()
 		</td>
 		<td>
-			强制其重新解析，触发后，会清除所有存储的值
+			强制其重新解析,触发后,会清除所有存储的值
 		</td>
 	</tr>
 </table>
+
+### 日志对象 ###
+
+日志对象允许javascript函数记录日志消息到 Rhapsody 日志文件
+
+方法
+
+<table>
+	<tr>
+		<td>
+			Method
+		</td>
+		<td>
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td>
+			debug(Object) debug(Object, Throwable)
+		</td>
+		<td>
+			只有日志登记在DEBUG或者更高才会触发
+		</td>
+	</tr>
+	<tr>
+		<td>
+			info(Object) info(Object, Throwable)
+		</td>
+		<td>
+			只有日志登记在INFO或者更高才会触发
+		</td>
+	</tr>
+	<tr>
+		<td>
+			warn(Object) warn(Object, Throwable)
+		</td>
+		<td>
+			只有日志登记在WARN或者更高才会触发
+		</td>
+	</tr>
+	<tr>
+		<td>
+			error(Object) error(Object, Throwable)
+		</td>
+		<td>
+			只有日志登记在ERROR或者更高才会触发
+		</td>
+	</tr>
+	<tr>
+		<td>
+			fatal(Object) fatal(Object, Throwable)
+		</td>
+		<td>
+			只有日志登记在FATAL或者更高才会触发
+		</td>
+	</tr>
+	<tr>
+		<td>
+			trace (Object, Throwable)
+		</td>
+		<td>
+			只有日志登记在TRACE或者更高才会触发
+		</td>
+	</tr>
+</table>
+
+
+### 列值对象 ###
+
+列值对象包含列和值，一般用于：
+
+- 以定义的列及其联系的值来定位
+- 通过迭代一个列数组，确认相关的键值对
+
+<table>
+	<tr>
+		<td>
+			Method
+		</td>
+		<td>
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getColumnName()
+		</td>
+		<td>
+			获得列名
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getValue()
+		</td>
+		<td>
+			获得列值
+		</td>
+	</tr>
+	<tr>
+		<td>
+			ColumnValue(string columnName, string value)
+		</td>
+		<td>
+			创建一个列值对象，例如var columnValue = new ColumnValue("Age", "25");
+		</td>
+	</tr>
+</table>
+
+
+### 连接对象 ###
+
+连接对象使用javascript函数实现TCP 服务端客户端协议。此对象提供了进入底层传输连接的方法
+
+方法
+
+<table>
+	<tr>
+		<td>
+			Method
+		</td>
+		<td>
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td>
+			readByte()
+		</td>
+		<td>
+			连接中读取字节
+		</td>
+	</tr>
+	<tr>
+		<td>
+			readBlock() readBlock(size)
+		</td>
+		<td>
+			连接中读取字节块，最大1024，返回字节数组
+		</td>
+	</tr>
+	<tr>
+		<td>
+			readString() readString(size) 
+		</td>
+		<td>
+			根据系统编码连接中读取字符串
+		</td>
+	</tr>
+	<tr>
+		<td>
+			readString(encoding) readString(encoding, size)
+		</td>
+		<td>
+			根据指定编码连接中读取字符串
+		</td>
+	</tr>
+	<tr>
+		<td>
+			writeHex(hex)
+		</td>
+		<td>
+			获得16进制编码的二进制块，解码写入连接中
+		</td>
+	</tr>
+	<tr>
+		<td>
+			write(byte)
+		</td>
+		<td>
+			写单个字节到连接中
+		</td>
+	</tr>
+	<tr>
+		<td>
+			write(string) write(string, encoding)
+		</td>
+		<td>
+			写string字符串到连接
+		</td>
+	</tr>
+	<tr>
+		<td>
+			flush()
+		</td>
+		<td>
+			清空连接，立刻强制写入所有缓存输出字节
+		</td>
+	</tr>
+</table>
+
+例如：建立一个连接，添加头体尾
+
+```
+conn.write("BEGIN");
+conn.write(message.text);
+conn.write("END");
+conn.flush();
+```
+
+读取连接
+
+先检查消息头
+```
+var header = conn.readString(5);
+if (!header.equals("BEGIN")) {
+   throw new java.io.IOException("Cannot receive message, incorrect header");
+}
+```
+然后查找消息体和尾部
+
+```
+var remainingText = conn.readString();
+var bodyLength = remainingText.length - 3;
+result.text = remainingText.substring(0, bodyLength);
+var footer = remainingText.substring(bodyLength);
+```
+
+检查消息尾部，都通过返回true
+
+```
+if (!footer.equals("END")) {
+   throw new java.io.IOException("Warning, message did not have correct footer");
+}
+true;
+```
 
 
 
