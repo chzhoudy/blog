@@ -13,9 +13,9 @@ Filter 添加了三个全部对象：
 
 
 
-# JavaScript Object Reference #
+## JavaScript Object Reference ##
 
-## 全局函数 ##
+### 全局函数 ###
 
 <table>
 	<tr>
@@ -92,7 +92,7 @@ Filter 添加了三个全部对象：
 	</tr>
 </table>
 
-## dataMap 函数 ##
+### dataMap 函数 ###
 
 dataMap 从input端转化一个字符或者域到output端的文本文件传输表中
 
@@ -178,7 +178,7 @@ for (var i = 0; i < input.length; i++) {
 ```
 
 
-## 只读消息对象 ##
+### 只读消息对象 ###
 
 属性
 
