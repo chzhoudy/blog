@@ -100,29 +100,29 @@ dataMap 从input端转化一个字符或者域到output端的文本文件传输�
  
 
 - 转化传入的字符串
-- 直接根据域转化
+- 直接根据字段转化
 
 传输输入的字符串：
 
-``
+```
 output = dataMap(inputString, file)
 output = dataMap(inputString, file, separator)
 output = dataMap(inputString, file, separator, default)
 output = dataMapColumns(inputString, inputColumn, outputColumn, file)
 output = dataMapColumns(inputString, inputColumn, outputColumn, file, separator)
 output = dataMapColumns(inputString, inputColumn, outputColumn, file, separator, default)
-``
+```
 
-传入域路径：
+传入字段转化文件路径：
 
-``
+```
 message.dataMap(fieldPath, file)
 message.dataMap(fieldPath, file, separator)
 message.dataMap(fieldPath, file, separator, default)
 message.dataMapColumns(fieldPath, inputColumn, outputColumn, file)
 message.dataMapColumns(fieldPath, inputColumn, outputColumn, file, separator)
 message.dataMapColumns(fieldPath, inputColumn, outputColumn, file, separator, default)
-``
+```
 
 例如： 如果JavaScript filter需要转化城市缩写(AKL,WGTN,CHCH)到城市全名（Auckland , Wellington , Christchurch）
 
@@ -325,5 +325,186 @@ for (var i = 0; i < input.length; i++) {
 		</td>
 	</tr>
 </table>
+
+
+### 消息对象 ###
+
+属性
+
+<table>
+	<tr>
+		<td>
+			Property
+		</td>
+		<td>
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td>
+			text
+		</td>
+		<td>
+			以系统默认字符编码get set字符串类型信息体
+		</td>
+	</tr>
+	<tr>
+		<td>
+			body
+		</td>
+		<td>
+			以byte数组get set消息体
+		</td>
+	</tr>
+	<tr>
+		<td>
+			connectionId
+		</td>
+		<td>
+			以integer类型get set连接标识符
+		</td>
+	</tr>
+	<tr>
+		<td>
+			bodyEncoding
+		</td>
+		<td>
+			以字符串类型get set字符编码
+		</td>
+	</tr>
+	<tr>
+		<td>
+			xml
+		</td>
+		<td>
+			以E4X标准get set消息体，写入时使用utf-8
+		</td>
+	</tr>
+</table>
+
+方法
+
+
+<table>
+	<tr>
+		<td>
+			Method
+		</td>
+		<td>
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td>
+			setText(string body, string encoding)
+		</td>
+		<td>
+			设置消息体
+		</td>
+	</tr>
+	<tr>
+		<td>
+			setField(string field, object value)
+		</td>
+		<td>
+			设置信息域的值
+		</td>
+	</tr>
+	<tr>
+		<td>
+			addError(string error)
+		</td>
+		<td>
+			添加错误消息
+		</td>
+	</tr>
+	<tr>
+		<td>
+			setProperty(string propertyName, string value)
+		</td>
+		<td>
+			设置消息值
+		</td>
+	</tr>
+	<tr>
+		<td>
+			addPropertyValue(string propertyName, string value)
+		</td>
+		<td>
+			添加消息值
+		</td>
+	</tr>
+	<tr>
+		<td>
+			indexProperty(string propertyName) 已废弃
+		</td>
+	</tr>
+	<tr>
+		<td>
+			indexOutputProperty(string propertyName)
+		</td>
+		<td>
+			索引输出属性
+		</td>
+	</tr>
+	<tr>
+		<td>
+			indexInputProperty(string propertyName)
+		</td>
+		<td>
+			索引输入属性
+		</td>
+	</tr>
+	<tr>
+		<td>
+			removeIndexingForProperty(string propertyName)
+		</td>
+		<td>
+			删除所有指定属性的索引
+		</td>
+	</tr>
+	<tr>
+		<td>
+			setBody(byte[] body[, string encoding])
+		</td>
+		<td>
+			设置消息体值为指定的bytes数组
+		</td>
+	</tr>
+	<tr>
+		<td>
+			getWritableEdiMessage()
+		</td>
+		<td>
+			从EDI消息中获取内部Symphonia消息成员元素
+		</td>
+	</tr>
+	<tr>
+		<td>
+			dataMap(input, file, separator, default)
+		</td>
+		<td>
+			通过文件转化input
+		</td>
+	</tr>
+	<tr>
+		<td>
+			dataMapColumns (input, inputColumn, outputColumn, file, separator, default)
+		</td>
+		<td>
+			通过文件转化input
+		</td>
+	</tr>
+	<tr>
+		<td>
+			clearLastUsedDefinition()
+		</td>
+		<td>
+			强制其重新解析，触发后，会清除所有存储的值
+		</td>
+	</tr>
+</table>
+
+
 
 
