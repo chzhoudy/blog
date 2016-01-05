@@ -2,7 +2,7 @@
 
 概述： javascript filter 通过执行脚本来处理通过 Rhapsody的信息，因为是脚本语言，可以轻松得进行复杂的计算和操作任务。
 
-Filter 添加了三个全部对象：
+Filter 添加了三个全局对象：
   
 
 	1. Input 一个Read-only Message 数组对象提供 input 消息给filter
