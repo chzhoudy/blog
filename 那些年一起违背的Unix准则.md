@@ -2,7 +2,12 @@
 
 **引言**
 
+>"It is not perfect, perfect forever uncommon. Perhaps, perfect is in sight." 
+
+在Tron的世界，库鲁在赶尽杀绝同分异构体，统一数位DNA后，始终无法达到完美乌托邦。
+
 ```
+The Grid
 A digital frontier.
 I tried to picture clusters of information
 as they traveled through the computer.
@@ -11,6 +16,10 @@ With the circuits like freeways.
 I kept dreaming of a world I thought I'd never see.
 And then, one day... I got in.
 ```
+
+1990年的12月Linus Torvalds发现微软的操作系统并没有充分利用英特尔386电脑，决定自行编写一个内核，加入到GNU计划中，允许用户修改，自由传递。他构造了属于自己的Grid，软件开发从大教堂转变为集市，带给他巨大的成功和极高的声誉。
+
+
 
 
 
