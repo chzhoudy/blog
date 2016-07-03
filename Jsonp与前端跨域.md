@@ -27,6 +27,25 @@ JSONP(JSON with Padding)是JSON的一种“使用模式”。因为HTML中的```
 
 
 
+```
+$.ajaxJSONP = function(options){
+    var callbackName = 'jsonp' + (++jsonpID),
+      script = document.createElement('script'),
+      abort = function(){
+        $(script).remove()
+        if (callbackName in window) window[callbackName] = empty
+        ajaxComplete('abort', xhr, options)
+      }
+      ...
+      window[callbackName] = function(data){
+        clearTimeout(abortTimeout)
+        $(script).remove()
+        delete window[callbackName]
+        ajaxSuccess(data, xhr, options)
+      }
+```
+
+
 
 **跨域**<br/>JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象（同源策略）。跨域的域仅仅是通过URL的头部来识别，即window.location.protocol 加上 window.location.host。下表为常见的情况：
 
