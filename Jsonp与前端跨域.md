@@ -11,7 +11,22 @@
 }
 ```
 
-之所以先搬出，因为它和JSONP一字之差。
+我们这里不讨论JSON，提及它无非和JSONP一字之差。<br/>
+
+JSONP(JSON with Padding)是JSON的一种“使用模式”。因为HTML中的```<script>```元素是一个例外，利用```<script>```可以直接请求到跨域的资源，而jsonp的本质就是用带有callback函数名的URL去请求非同源资源，返回拼装好的带入参的函数，用callback去接受和处理。
+
+例如：
+     
+    1.有一个非同源资源地址:www.a.com/get.do，用户期望返回JSON数据为["a":"aa","b":"bb]。
+
+    2.我们在script标签里用带有jsonp参数的URL去请求。www.a.com/get.do?jsonp=fn
+
+    3.经过服务端处理返回Tag:fn(["a":"aa","b":"bb])
+   
+    4.然后在页面上fn函数的实现function fn(result){}接受处理result
+
+
+
 
 **跨域**<br/>JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象（同源策略）。跨域的域仅仅是通过URL的头部来识别，即window.location.protocol 加上 window.location.host。下表为常见的情况：
 
