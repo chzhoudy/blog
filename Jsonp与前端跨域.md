@@ -25,7 +25,7 @@ JSONP(JSON with Padding)是JSON的一种“使用模式”。因为HTML中的```
    
     4.然后在页面上fn函数的实现function fn(result){}接受处理result
 
-
+我们来读一下Zepto.js关于ajaxJSONP的源代码：
 
 ```
 $.ajaxJSONP = function(options){
@@ -43,9 +43,26 @@ $.ajaxJSONP = function(options){
         delete window[callbackName]
         ajaxSuccess(data, xhr, options)
       }
+     serializeData(options)
+     script.src = options.url.replace(/=\?/, '=' + callbackName)
+     $('head').append(script)
+     ...
+}
 ```
+可以发现，类似于Zepto,Jquery的jsonp均是创建一个script的标签，然后将src设置为要请求的url。
 
+当然Zepto不推荐使用$.ajaxJSONP,而将功能集成到了$.ajax方法中:
 
+```
+if (dataType == 'jsonp' || hasPlaceholder) {
+      if (!hasPlaceholder) settings.url = appendQuery(settings.url, 'callback=?')
+      return $.ajaxJSONP(settings)
+}
+```
+在$.ajax中启用jsonp，必须设置如下2个参数：
+
+- jsonp (默认：“callback”): JSONP回调查询参数的名称
+- jsonpCallback (默认： “jsonp{N}”): 全局JSONP回调函数的 字符串（或返回的一个函数）名。设置该项能启用浏览器的缓存。 v1.1+
 
 **跨域**<br/>JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象（同源策略）。跨域的域仅仅是通过URL的头部来识别，即window.location.protocol 加上 window.location.host。下表为常见的情况：
 
