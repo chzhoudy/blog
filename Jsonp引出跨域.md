@@ -1,4 +1,4 @@
-## Jsonp与跨域 ##
+## Jsonp引出跨域 ##
 
 **JSONP和JSON**<br/>JSON(JavaScript Object Notation) 是当前最流行的数据交换格式。花括号，键值对具有非常高的可读性，与XML相比减少了复杂性。
 ```
@@ -234,6 +234,14 @@ try {
 response.addHeader("Access-Control-Allow-Origin","*");
 
 支持浏览器：chrome 3+,Firefox 3.5+,Opera 12+,Safari 4+,IE 8+
+
+- nginx反向代理实现跨域
+
+- iframe
+
+- H5:postMessage
+
+- H5:WebSockets
 
 
 
