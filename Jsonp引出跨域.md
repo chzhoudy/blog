@@ -243,5 +243,6 @@ response.addHeader("Access-Control-Allow-Origin","*");
 
 - H5:WebSockets
 
+WebSocket protocol 是HTML5一种新的协议。它实现了浏览器与服务器全双工通信(full-duplex)。一开始的握手需要借助HTTP请求完成。
 
 
