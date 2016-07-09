@@ -13,7 +13,7 @@
 
 我们这里不讨论JSON，提及它无非和JSONP一字之差。<br/>
 
-JSONP(JSON with Padding)是JSON的一种“使用模式”。因为HTML中的```<script>```元素是一个例外，利用```<script>```可以直接请求到跨域的资源，而jsonp的本质就是用带有callback函数名的URL去请求非同源资源，返回拼装好的带函数名的值，根据callback函数去处理。
+JSONP(JSON with Padding)是JSON的一种“使用模式”。因为HTML中的```<script>```元素是一个例外，利用```<script>```可以直接请求到跨域的资源，而jsonp的本质就是用带有callback函数名的URL去请求非同源资源，返回值包上callback函数名，回调callback函数去处理。
 
 例如：
      
@@ -25,7 +25,7 @@ JSONP(JSON with Padding)是JSON的一种“使用模式”。因为HTML中的```
    
     4.然后在页面上实现function fn(result){}接受处理result
 
-> 服务端返回的不是JSON，而是带有回调函数名字的值，所以如果仍然直接以json去处理它，会弹出Uncaught SyntaxError: Unexpected token : 解决的方法很简单，服务端在拼装返回值的时候加上request.getParameter("callback")和"()"。
+> 服务端返回的不是JSON，而是外层包有回调函数名字的值，如果直接返回json，会弹出Uncaught SyntaxError: Unexpected token : 解决的方法很简单，服务端在拼装返回值的时候加上request.getParameter("callback")和"()"。
 
 服务端处理如下（Java):
 ```
@@ -37,7 +37,7 @@ public void deal(HttpServletRequest request, HttpServletResponse response) {
 }  
 ```
 
-平时经常使用的Jquery类框架同样支持JSONP，我们来看一下Zepto.js关于ajaxJSONP的代码：
+常用框架同样支持JSONP，我们来看一下Zepto.js关于ajaxJSONP的代码：
 
 ```
 $.ajaxJSONP = function(options){
@@ -195,7 +195,7 @@ $.jsonp({
 	</tr>
 </table>
 
-**其他方法**
+**解决跨域的其他方法**
 
 - proxy.jsp
 
@@ -231,7 +231,37 @@ try {
 
 - CORS(Cross-Origin Resource Sharing)
 
-response.addHeader("Access-Control-Allow-Origin","*");
+Java: response.addHeader("Access-Control-Allow-Origin","*");
+
+nginx: Server端 
+
+```
+location / {
+     if ($request_method = 'OPTIONS') {
+        add_header 'Access-Control-Allow-Origin' '*';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+        add_header 'Access-Control-Max-Age' 1728000;
+        add_header 'Content-Type' 'text/plain charset=UTF-8';
+        add_header 'Content-Length' 0;
+        return 204;
+     }
+     if ($request_method = 'POST') {
+        add_header 'Access-Control-Allow-Origin' '*';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+     }
+     if ($request_method = 'GET') {
+        add_header 'Access-Control-Allow-Origin' '*';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+     }
+}
+```
+
+
+
+Tip: 
 
 支持浏览器：chrome 3+,Firefox 3.5+,Opera 12+,Safari 4+,IE 8+
 
