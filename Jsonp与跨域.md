@@ -201,36 +201,7 @@ $.jsonp({
 
 1.配置在Java程序中: response.addHeader("Access-Control-Allow-Origin","*");
 
-2.proxy.jsp:放到 java 应用服务器中，用来请求网页资源
-```
-<%@page session="false" %>
-<%@page import="java.net.*,java.io.*" %>
-try {
-	String reqUrl = request.getQueryString();
-	URL url = new URL(reqUrl);
-	HttpURLConnection con = (HttpURLConnection) url.openConnection();
-	con.setDoOutput(true);
-	con.setRequestMethod(request.getMethod());
-	int length = request.getContentLength();
-	if (length > 0) {
-	    con.setDoInput(true);
-	    byte[] idata = new byte[length];
-	    request.getInputStream().read(idata, 0, length);
-	    con.getOutputStream().write(idata, 0, length);
-	}
-	response.setContentType(con.getContentType());
-	BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	String line;
-	while ((line = rd.readLine()) != null) {
-	    out.println(line);
-	}
-	rd.close();
-	} catch (Exception e) {
-	response.setStatus(500);
-}
-```
-
-3.配置在nginx Server端 
+2.配置在nginx Server端 
 
 ```
 location / {
@@ -280,15 +251,44 @@ TRACE：允许客户端查看从发起到接收整一条链上面的信息，服
 
 CONNECT：根据url连接资源，例如上面的proxy.jsp中的connect方法
 
+- proxy.jsp(在Java Application Server中，请求网页资源)
+```
+<%@page session="false" %>
+<%@page import="java.net.*,java.io.*" %>
+try {
+	String reqUrl = request.getQueryString();
+	URL url = new URL(reqUrl);
+	HttpURLConnection con = (HttpURLConnection) url.openConnection();
+	con.setDoOutput(true);
+	con.setRequestMethod(request.getMethod());
+	int length = request.getContentLength();
+	if (length > 0) {
+	    con.setDoInput(true);
+	    byte[] idata = new byte[length];
+	    request.getInputStream().read(idata, 0, length);
+	    con.getOutputStream().write(idata, 0, length);
+	}
+	response.setContentType(con.getContentType());
+	BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	String line;
+	while ((line = rd.readLine()) != null) {
+	    out.println(line);
+	}
+	rd.close();
+	} catch (Exception e) {
+	response.setStatus(500);
+}
+```
 
-- nginx反向代理实现跨域
+- Nginx Location Rewrite
+
+
 
 - iframe
 
-- H5:postMessage
+- H5:postMessage(未测试，待补）
 
-- H5:WebSockets
+- H5:WebSockets（未测试，待补）
 
-WebSocket protocol 是HTML5一种新的协议。它实现了浏览器与服务器全双工通信(full-duplex)。一开始的握手需要借助HTTP请求完成。
 
 
