@@ -197,10 +197,11 @@ $.jsonp({
 
 **解决跨域的其他方法**
 
-- proxy.jsp
+- CORS(Cross-Origin Resource Sharing)
 
-在开发ArcGIS请求对方地图服务器的时候使用过proxy.jsp
+1.配置在Java程序中: response.addHeader("Access-Control-Allow-Origin","*");
 
+2.proxy.jsp:放到 java 应用服务器中，用来请求网页资源
 ```
 <%@page session="false" %>
 <%@page import="java.net.*,java.io.*" %>
@@ -229,11 +230,7 @@ try {
 }
 ```
 
-- CORS(Cross-Origin Resource Sharing)
-
-Java: response.addHeader("Access-Control-Allow-Origin","*");
-
-nginx: Server端 
+3.配置在nginx Server端 
 
 ```
 location / {
@@ -259,20 +256,30 @@ location / {
 }
 ```
 
-
-
 Tip: HTTP request_method 共有8种,参考[RFC2616](https://datatracker.ietf.org/doc/rfc2616/?include_text=1)：
 
-- OPTIONS:发送请求，根据请求的资源类型，确定服务器支持的功能 
-- GET: 根据请求url请求资源
-- HEAD：
-- POST 
-- PUT 
-- DELETE
-- TRACE
-- CONNECT
+OPTIONS:发送请求，根据请求的资源类型，确定服务器支持的功能 
 
-支持浏览器：chrome 3+,Firefox 3.5+,Opera 12+,Safari 4+,IE 8+
+GET: 根据请求url请求资源
+
+HEAD：根据请求url获取header内容
+
+POST: 提交body内容给url接受资源者，非幂等
+
+PUT:与Post相似，都可以创建和更新资源，但与Post的区别为幂等
+
+HTTP定义的幂等：
+
+> Methods can also have the property of "idempotence" in that (aside from error or expiration issues) the side-effects of N > 0 identical requests is the same as for a single request.
+
+所以PUT请求一次和多次结果一样，但是POST不一样。POST是操作集合资源（/resources），而PUT操作的是具体资源（/resources/R1）。如果URL可以在客户端确定，那么就使用PUT，如果是在服务端确定，那么就使用POST。
+ 
+DELETE：提交url删除资源
+
+TRACE：允许客户端查看从发起到接收整一条链上面的信息，服务器上启动Trace method，他人可以利用返回的详细信息，进行跨站脚本攻击（XSS）
+
+CONNECT：根据url连接资源，例如上面的proxy.jsp中的connect方法
+
 
 - nginx反向代理实现跨域
 
