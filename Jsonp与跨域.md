@@ -280,7 +280,71 @@ try {
 }
 ```
 
-- Nginx Location Rewrite
+- Nginx Location Rewrite(反向代理法）
+
+适用场景：对方服务器无法为你设置CORS,请求方前端又不能改变代码设置script标签，或者是使用jsonp,转由nginx服务器代理处理后返回结果。
+
+场景：需要请求的url(172.23.123.49/api/getPerson?id=10088),nginx代理后请求地址(http://localhost/Kawasaki/getPerson?id=10088)
+
+前台调用ajax:
+```
+$.ajax({ 
+    type: "GET", 
+    url:"/getPerson?id=10088", 
+    success: function(data){..}  
+})　　
+```
+
+nginx.conf:
+```
+location ^~/Kawasaki/ {
+    rewrite ^/Kawasaki/(.*)$ /$1 break;
+    proxy_pass http://172.23.123.49/api/;
+}
+```
+
+Tip:
+1.location正则写法
+```
+location  = / {} 精确匹配 /,地址后面不能带任何分支
+```
+
+```
+location  / {} 所有地址匹配
+```
+
+```
+location ~ /url/ {}  匹配地址，匹配符合，继续搜索
+```
+
+```
+location ^~ /url/ {} 匹配地址，匹配符合以后，停止往下搜索正则，采用这一条。
+```
+
+```
+location ~* \.(gif|jpg|jpeg)$ {} 匹配所有以 gif,jpg或jpeg 结尾的静态资源请求
+```
+
+以下有一个参考自@seanlook的常用配置方案
+```
+location = / {
+    proxy_pass http://tomcat:8080/index
+}
+location ^~ /static/ {
+    root /webroot/static/;
+}
+location ~* \.(gif|jpg|jpeg|png|css|js|ico)$ {
+    root /webroot/res/;
+}
+location / {
+    proxy_pass http://tomcat:8080/
+}
+```
+
+2.
+
+
+
 
 
 
