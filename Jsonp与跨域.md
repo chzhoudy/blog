@@ -282,7 +282,7 @@ try {
 
 - Nginx Location Rewrite(反向代理法）
 
-适用场景：对方服务器无法为你设置CORS,请求方前端又不能改变代码设置script标签，或者是使用jsonp,转由nginx服务器代理处理后返回结果。
+适用场景：对方服务器无法为你设置CORS,请求方前端又不能改变代码设置script标签，也无法使用jsonp,于是转由nginx服务器Rewrite地址并请求后返回结果。
 
 场景：需要请求的url(172.23.123.49/api/getPerson?id=10088),nginx代理后请求地址(http://localhost/Kawasaki/getPerson?id=10088)
 
@@ -303,8 +303,7 @@ location ^~/Kawasaki/ {
 }
 ```
 
-Tip:
-1.location正则写法
+Tip：location正则写法
 ```
 location  = / {} 精确匹配 /,地址后面不能带任何分支
 ```
@@ -341,14 +340,55 @@ location / {
 }
 ```
 
-2.
+- iframe（反感，不讨论，仅列出）
 
-
-
-
-
-
-- iframe
+<table>
+	<tr>
+		<td>
+			方式
+		</td>
+		<td>
+			思路
+		</td>
+        <td>
+			场景
+		</td>
+	</tr>
+    <tr>
+		<td>
+			location.hash
+		</td>
+		<td>
+			父页面和跨域页面之间通过监听location.hash变化，并传值。由于iframe页面无法修改不同域的父页面hash值，需要在iframe页面中增加一个和父页面同域的iframe嵌套,以parent.parent.location.hash去修改
+            
+		</td>
+        <td>
+			允许传参暴露于url，类型大小受限
+		</td>
+	</tr>
+    <tr>
+		<td>
+			document.domain
+		</td>
+		<td>
+			父页面设置document.domain与被嵌套跨域页面一致，随后再嵌套子页面
+		</td>
+        <td>
+			主域相同，子域不同
+		</td>
+	</tr>
+    <tr>
+		<td>
+			window.name
+		</td>
+		<td>
+			被嵌套页面有数据要传递，数据附加到window.name上，到和父页面同域的页面上，父页面就可以获取到内嵌的window.name
+		</td>
+        <td>
+			window.name在页面跳转后依然存在，测试中发现Chrome无法获取，@xinsiyu2008出现部份属性IE10中获取不到相同，解决：删除嵌套iframe时设置的属性
+		</td>
+	</tr>
+</table>
 
 - H5:postMessage(未测试，待补）
 
