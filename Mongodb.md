@@ -112,8 +112,70 @@
 MongoClient mongoClient = new MongoClient("localhost",27017); //使用指定+端口
 MongoClientURI uri = new MongoClientURI("mongodb://rhit:rhit@localhost:27017/test"); //使用连接URI
 MongoClient mongoClientUrl = new MongoClient(uri);
-MongoDatabase db = mongoClient.getDatabase("test"); //获取数据库对象实例
 ```
 
+获取数据库对象：
 
+```
+MongoDatabase db = mongoClient.getDatabase("test"); 
+```
+
+访问和操作集合中的文档：
+
+```
+MongoCollection collection = db.getCollection("testCollection");
+```
+
+CRUD：
+
+```
+//批量插入
+public static void insert(MongoCollection<Document> collection){
+    List<Document> documents = new ArrayList<Document>();
+    for (int i = 0; i < 10; i++) {
+        documents.add(new Document("name", "dreamoftch").append("age", (20+i)).append("createdDate", new Date()));
+    }
+    collection.insertMany(documents);
+}
+
+//删除单条
+public static void deleteCollection(MongoCollection<Document> collection){
+    collection.deleteOne(Filters.lt("age",24));
+}
+
+//单条更新
+public static void updateCollection(MongoCollection<Document> collection){
+    collection.updateOne(Filters.eq("name","dreamoftch"),
+            new Document("$set",new Document("name","new").append("age",16).append("createdDate", new Date())));
+}
+
+//查询集合
+public static void listCollections(MongoDatabase database) {
+    MongoIterable<String> allCollections = database.listCollectionNames();
+    for (String collection : allCollections) {
+        System.out.println("Collection name: " + collection);
+    }
+}
+
+//过滤查询
+public static void listCollectionWithFilter(MongoCollection<Document> collection){
+    for (Document document : collection.find(Filters.and(Filters.eq("name", "dreamoftch"), Filters.gt("age", 25)))) {
+        System.out.println(document);
+    }
+}
+
+//批量查询
+public static void listDocuments(MongoCollection<Document> collection){
+     for(Document document : collection.find()){
+         System.out.println(document);
+     }
+}
+
+//过滤查询+反向排序
+public static void listDocumentWithFilterAndInReverseOrder(MongoCollection<Document> collection){
+    for (Document document : collection.find(Filters.and(Filters.eq("name", "dreamoftch"), Filters.gt("age", 26))).sort(Sorts.descending("age"))) {
+        System.out.println(document);
+    }
+}
+```
 
