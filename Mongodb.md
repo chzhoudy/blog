@@ -173,9 +173,12 @@ public static void listDocuments(MongoCollection<Document> collection){
 
 //过滤查询+反向排序
 public static void listDocumentWithFilterAndInReverseOrder(MongoCollection<Document> collection){
-    for (Document document : collection.find(Filters.and(Filters.eq("name", "dreamoftch"), Filters.gt("age", 26))).sort(Sorts.descending("age"))) {
-        System.out.println(document);
-    }
+    for (Document document : collection.find(
+            Filters.and(Filters.eq("name", "dreamoftch"), Filters.gt("age", 26)))
+                   .sort(Sorts.descending("age")))
+            {
+                 System.out.println(document);
+            }
 }
 ```
 
