@@ -166,5 +166,13 @@
 
 如果遇到的是比较强的对手，就要敢于用“捭”的战略，主动攻击；反之，则要采用“阖”的战略，隐藏自己以德服人。
 
+**进阶之旅**
+
+To follow the path:
+look to the master,
+follow the master,
+walk with the master,
+see through the master,
+become the master.
 
 
